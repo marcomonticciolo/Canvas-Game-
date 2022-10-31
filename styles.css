@@ -1,0 +1,23 @@
+
+canvas {
+    border: solid black;
+    border-left: solid black 10px;
+    border-right: solid black 10px;
+    border-right-style:double;
+    border-left-style:double;
+    border-bottom: solid black 3px;
+    border-top: solid black 3px;
+
+}
+
+h1{
+    text-align: center;
+}
+
+div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
