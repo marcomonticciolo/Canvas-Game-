@@ -33,20 +33,50 @@ class Background {
     }
 }
 
-class enemy {
+class Enemy {
     constructor(x,y,width,height,imageSrc){
         this.x = x
         this.y = y
-        this.height = height
-        this.width = width
+        this.h = height
+        this.w = width
         this.img = new Image()
         this.img.src = imageSrc;
+        this.velocity= {
+            x:0,
+            y:0
+        };
+    }
+
+    moveLeft(){
+        this.velocity.x = -2
     }
 
     draw(){
 
         ctx.fillStyle = 'red'
         ctx.fillRect(this.x,this.y,this.w,this.h);
+    }
+    update(){
+
+        this.x += this.velocity.x
+        
+        this.y += this.velocity.y
+    
+    // floor border
+        if (this.y + this.h + this.velocity.y >= canvas.height ){
+            this.velocity.y = 0
+            //this.hasJumped = 0
+        }
+    
+    //    Ceiling border!
+    if (this.y <= 0){
+            this.velocity.y = 1
+            this.y = 1
+    }
+    // Left Wall Border
+   
+    this.draw()
+    
     }
 }
 
@@ -222,20 +252,28 @@ window.addEventListener('keyup',function(event){
 
 const islandsArr = [newIsland, newIsland2, newIsland3]
 
+const enemyArr = []
+
 let frameCount = 0;
 let score = 0;
 
+
 function animate(){
-    // frameCount++
-    // if(frameCount % 60 === 0){
-    //    score++;
-    //    timerDiv.textContent = `time ${score}`
-    // }
+    frameCount++
+    if(frameCount % 60 === 0){
+       score++;
+       timerDiv.textContent = `time ${score}`
+    }
     window.requestAnimationFrame(animate) 
     ctx.fillStyle = "white"
     ctx.fillRect (0,0,canvas.width,canvas.height)
+
     backgroundImg.draw()
+
     newPlayer.update()
+
+    
+
     for(let i = 0; i < islandsArr.length; i++){
         if(newPlayer.collisionDetection(islandsArr[i])){
             console.log('detected')
@@ -244,6 +282,20 @@ function animate(){
     }
    
 
+    
+
+    if (frameCount % 120 == 0){
+        const newEnemy = new Enemy(canvas.width,canvas.height * Math.random(),30,30, './images/8172279.jpeg');
+        enemyArr.push(newEnemy);
+        
+    }
+
+    for (let i = 0; i < enemyArr.length; i++){
+        enemyArr[i].moveLeft();
+        enemyArr[i].update()
+    }
+
+    
 
     newPlayer.velocity.x = 0
 
