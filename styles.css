@@ -1,5 +1,20 @@
 body{
-    background-color: black;
+    background-image: url(./images/8172279.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+#timer {
+    position: absolute;
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    height: 60px;
+    width: 140px;
+    border: darkgreen;
+
+
 }
 
 
@@ -7,21 +22,14 @@ body{
 
 canvas {
 
-    border: solid red;
-    border-left: solid red 10px;
-    border-right: solid red 10px;
-    border-right-style:double;
-    border-left-style:double;
-    border-bottom: solid red 3px;
-    border-top: solid red3px;
-    background-color: white;
+    border: solid black;
+    border-left: solid 2px;
+    border-right: solid 2px;
+    border-bottom: solid 2px;
+    border-top: solid 2px;
 
 }
 
-h1{
-    color:  white;
-    text-align: center;
-}
 
 div{
     display: flex;
