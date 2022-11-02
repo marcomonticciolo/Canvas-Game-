@@ -12,9 +12,16 @@ body{
     justify-content: center;
     height: 60px;
     width: 140px;
-    border: darkgreen;
+    border: 10%;
+    border-color: solid black;
 
 
+}
+
+
+#start {
+    display: flex;
+    align-items: flex-start;
 }
 
 

@@ -35,10 +35,15 @@ class Background {
 
 class Enemy {
     constructor(x,y,width,height,imageSrc){
-        this.x = x
+        this.x = -70
         this.y = y
-        this.h = height
-        this.w = width
+        this.h = 120
+        this.w = 120
+        this.sx = 0
+        this.sy = 0
+        this.swidth = 45
+        this.sheight = 50
+        this.frame = 0
         this.img = new Image()
         this.img.src = imageSrc;
         this.velocity= {
@@ -47,15 +52,28 @@ class Enemy {
         };
     }
 
-    moveLeft(){
-        this.velocity.x = -2
+    moveRight(){
+        this.velocity.x = 6
     }
 
     draw(){
 
-        ctx.fillStyle = 'red'
-        ctx.fillRect(this.x,this.y,this.w,this.h);
+ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, this.w, this.h)
+    
     }
+
+    collisionDetectionEnemies(player1){
+        if (this.x < player1.x + player1.w &&
+            this.x + this.w > player1.x &&
+            this.y < player1.y + player1.h &&
+            this.y + this.h > player1.y) {
+             return true
+         }
+        else {
+            return false
+          }
+        }
+
     update(){
 
         this.x += this.velocity.x
@@ -65,7 +83,6 @@ class Enemy {
     // floor border
         if (this.y + this.h + this.velocity.y >= canvas.height ){
             this.velocity.y = 0
-            //this.hasJumped = 0
         }
     
     //    Ceiling border!
@@ -73,12 +90,13 @@ class Enemy {
             this.velocity.y = 1
             this.y = 1
     }
-    // Left Wall Border
-   
+    
     this.draw()
     
     }
 }
+
+
 
 let backgroundImg = new Background(0,0,0,0,928,735,canvas.width, canvas.height,"./images/Free-Pixel-Art-Forest/Preview/Background.png")
 
@@ -135,6 +153,8 @@ class Player {
             return false
           }
     }
+
+    
     
     drawPlayer(){
         
@@ -170,7 +190,7 @@ if (this.x >= canvas.width - this.w){
     this.x = canvas.width - this.w - 1
   
 }
-this.drawPlayer()
+this.drawPlayer("images/AllCharacters/Golem/noBKG_GolemIdle_strip.png")
 
 }
 }
@@ -181,13 +201,25 @@ let newPlayer = new Player({
     x: 400,
     y: 0,
     width: 30,
-    height: 60,
+    height: 65,
     color: 'blue',
     velocity: {
         x:0,
         y:0
     }
 });
+
+
+
+// let newEnemy = new Enemy (0, 720 * Math.random(), 30, 30, './images/8172279.jpeg');
+// let newEnemy = new Enemy ({
+//     x: 0,
+//     y: 720 * Math.random(),
+//     width: 30,
+//     height: 30,
+//     imageSrc: './images/8172279.jpeg'
+
+// });
 
 
 
@@ -250,53 +282,69 @@ window.addEventListener('keyup',function(event){
     }
 })
 
-const islandsArr = [newIsland, newIsland2, newIsland3]
+let islandsArr = [newIsland, newIsland2, newIsland3]
 
-const enemyArr = []
+let enemyArr = []
 
 let frameCount = 0;
 let score = 0;
+let spriteFrame = 0
+let difficulty
 
 
 function animate(){
-    frameCount++
-    if(frameCount % 60 === 0){
+    frameCount += .5
+    if(frameCount % 30 === 0){
        score++;
        timerDiv.textContent = `time ${score}`
     }
+    spriteFrame = Math.floor(frameCount % 7.5)
     window.requestAnimationFrame(animate) 
     ctx.fillStyle = "white"
     ctx.fillRect (0,0,canvas.width,canvas.height)
 
+    
+
     backgroundImg.draw()
+
+ 
 
     newPlayer.update()
 
-    
+
+
 
     for(let i = 0; i < islandsArr.length; i++){
         if(newPlayer.collisionDetection(islandsArr[i])){
-            console.log('detected')
         }
         islandsArr[i].draw()
     }
-   
 
-    
 
-    if (frameCount % 120 == 0){
-        const newEnemy = new Enemy(canvas.width,canvas.height * Math.random(),30,30, './images/8172279.jpeg');
+
+
+    if (frameCount % 30 == 0){
+        const newEnemy = new Enemy(0,690 * Math.random(),30,30, './images/Bat/noBKG_BatFlight_strip.png');
         enemyArr.push(newEnemy);
-        
+    }
+
+    for (let j = 0; j < enemyArr.length; j++){
+if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
+}
     }
 
     for (let i = 0; i < enemyArr.length; i++){
-        enemyArr[i].moveLeft();
+        enemyArr[i].frame = frameCount
+        enemyArr[i].sx = spriteFrame * 64
+        enemyArr[i].moveRight();
         enemyArr[i].update()
+        if(enemyArr[i].x > canvas.width + 1){
+            enemyArr.splice(i, 1)
+            i--
+        }
+        console.log(enemyArr)
     }
-
-    
-
+   
     newPlayer.velocity.x = 0
 
 
@@ -308,9 +356,10 @@ function animate(){
 
 
 
+    }
 
     }
-    }
+
 
 animate()
 
