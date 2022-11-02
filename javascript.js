@@ -3,6 +3,9 @@ const ctx = canvas.getContext('2d');
 
 const timerDiv = document.querySelector('#timer')
 
+const playerImg = new Image()
+playerImg.src = './images/AllCharacters/Golem/noBKG_GolemIdle_strip.png'
+
 ctx.fillRect(50,400,200,50)
 
 const gravity = 1
@@ -53,7 +56,7 @@ class Enemy {
     }
 
     moveRight(){
-        this.velocity.x = 6
+        this.velocity.x = 5
     }
 
     draw(){
@@ -158,8 +161,8 @@ class Player {
     
     drawPlayer(){
         
-        ctx.fillStyle = 'blue'
-        ctx.fillRect(this.x,this.y,this.w,this.h);
+     
+        ctx.drawImage(playerImg,0,0,50,50, this.x, this.y, 70,85)
     }
 
 update(){
@@ -190,7 +193,7 @@ if (this.x >= canvas.width - this.w){
     this.x = canvas.width - this.w - 1
   
 }
-this.drawPlayer("images/AllCharacters/Golem/noBKG_GolemIdle_strip.png")
+this.drawPlayer()
 
 }
 }
@@ -200,8 +203,8 @@ this.drawPlayer("images/AllCharacters/Golem/noBKG_GolemIdle_strip.png")
 let newPlayer = new Player({
     x: 400,
     y: 0,
-    width: 30,
-    height: 65,
+    width: 45,
+    height: 85,
     color: 'blue',
     velocity: {
         x:0,
@@ -296,7 +299,7 @@ function animate(){
     frameCount += .5
     if(frameCount % 30 === 0){
        score++;
-       timerDiv.textContent = `time ${score}`
+       timerDiv.textContent = `Time Survived: ${score}`
     }
     spriteFrame = Math.floor(frameCount % 7.5)
     window.requestAnimationFrame(animate) 
@@ -324,12 +327,13 @@ function animate(){
 
 
     if (frameCount % 30 == 0){
-        const newEnemy = new Enemy(0,690 * Math.random(),30,30, './images/Bat/noBKG_BatFlight_strip.png');
+        const newEnemy = new Enemy(0,650 * Math.random(),30,30, './images/Bat/noBKG_BatFlight_strip.png');
         enemyArr.push(newEnemy);
     }
 
     for (let j = 0; j < enemyArr.length; j++){
 if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
+    console.log('crash')
 }
     }
 
@@ -342,8 +346,8 @@ if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
             enemyArr.splice(i, 1)
             i--
         }
-        console.log(enemyArr)
     }
+
    
     newPlayer.velocity.x = 0
 
