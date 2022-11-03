@@ -10,6 +10,11 @@ ctx.fillRect(50,400,200,50)
 
 const gravity = 1
 
+//event listener on buttin here to call animate function
+
+document.getElementById("start").addEventListener("click", animate);
+
+
 class Background {
     constructor(x,y,sx,sy,swidth,sheight,width,height,imageSrc){
         this.x = x;
@@ -40,12 +45,12 @@ class Enemy {
     constructor(x,y,width,height,imageSrc){
         this.x = -70
         this.y = y
-        this.h = 120
-        this.w = 120
+        this.h = 100
+        this.w = 100
         this.sx = 0
         this.sy = 0
-        this.swidth = 45
-        this.sheight = 50
+        this.swidth = 44
+        this.sheight = 44
         this.frame = 0
         this.img = new Image()
         this.img.src = imageSrc;
@@ -66,10 +71,10 @@ ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, t
     }
 
     collisionDetectionEnemies(player1){
-        if (this.x < player1.x + player1.w &&
-            this.x + this.w > player1.x &&
-            this.y < player1.y + player1.h &&
-            this.y + this.h > player1.y) {
+        if (this.x < player1.x + player1.w  &&
+            this.x + this.w - 30  > player1.x &&
+            this.y + 50 < player1.y + player1.h  &&
+            this.y + this.h - 40 > player1.y) {
         return true
          }
         else {
@@ -142,8 +147,8 @@ class Player {
     collisionDetection(object){
         if (
             this.x < object.hitX + object.hitW &&
-            this.x + this.w > object.hitX &&
-            this.y + this.velocity.y < object.hitY + object.hitH &&
+            this.x + this.w + 10 > object.hitX &&
+            this.y + this.velocity.y  < object.hitY + object.hitH &&
             this.h + this.y + this.velocity.y > object.hitY
           ) {
             if(this.velocity.y > 0 && this.y + this.h < object.hitY + object.hitY * 0.05){
@@ -159,13 +164,16 @@ class Player {
 
     
     
-    drawPlayer(){
+    drawPlayer(frame){
         
-     
-        ctx.drawImage(playerImg,0,0,50,50, this.x, this.y, 70,85)
+        // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+console.log(frame, "This is player frame")
+this.sx = playerFrame * 64
+        ctx.drawImage(playerImg,this.sx,0,50,40, this.x, this.y, 70,70)
+
     }
 
-update(){
+update(frame){
 
     this.x += this.velocity.x
     
@@ -193,7 +201,7 @@ if (this.x >= canvas.width - this.w){
     this.x = canvas.width - this.w - 1
   
 }
-this.drawPlayer()
+this.drawPlayer(frame)
 
 }
 }
@@ -252,7 +260,7 @@ const keys = {
 
 window.addEventListener('keydown', function(event){
 
-
+event.preventDefault()
     switch(event.code){
         case "ArrowLeft":
             newPlayer.moveLeft();
@@ -285,6 +293,16 @@ window.addEventListener('keyup',function(event){
     }
 })
 
+function endGame(){
+  cancelAnimationFrame(animationFrameId) 
+  ctx.font = '48px serif';
+  ctx.fillText('Game Over', 10, 50);
+  score = 0
+  enemyArr = []
+ 
+
+}
+
 let islandsArr = [newIsland, newIsland2, newIsland3]
 
 let enemyArr = []
@@ -292,8 +310,8 @@ let enemyArr = []
 let frameCount = 0;
 let score = 0;
 let spriteFrame = 0
+let playerFrame = 0
 
-let animationFrameId
 function animate(){
     frameCount += .5
     if(frameCount % 30 === 0){
@@ -301,17 +319,17 @@ function animate(){
        timerDiv.textContent = `Time Survived: ${score}`
     }
     spriteFrame = Math.floor(frameCount % 7.5)
-    animationFrameId = window.requestAnimationFrame(animate) 
-    ctx.fillStyle = "white"
-    ctx.fillRect (0,0,canvas.width,canvas.height)
 
+    playerFrame = Math.floor(frameCount % 12 )
+
+    animationFrameId = window.requestAnimationFrame(animate) 
     
 
     backgroundImg.draw()
 
  
 
-    newPlayer.update()
+    newPlayer.update(playerFrame)
 
 
 
@@ -332,7 +350,8 @@ function animate(){
 
     for (let j = 0; j < enemyArr.length; j++){
 if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
-    cancelAnimationFrame(animationFrameId)
+  endGame()
+  console.log('hello')
 }
     }
 
