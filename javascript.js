@@ -70,7 +70,7 @@ ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, t
             this.x + this.w > player1.x &&
             this.y < player1.y + player1.h &&
             this.y + this.h > player1.y) {
-             return true
+        return true
          }
         else {
             return false
@@ -292,9 +292,8 @@ let enemyArr = []
 let frameCount = 0;
 let score = 0;
 let spriteFrame = 0
-let difficulty
 
-
+let animationFrameId
 function animate(){
     frameCount += .5
     if(frameCount % 30 === 0){
@@ -302,7 +301,7 @@ function animate(){
        timerDiv.textContent = `Time Survived: ${score}`
     }
     spriteFrame = Math.floor(frameCount % 7.5)
-    window.requestAnimationFrame(animate) 
+    animationFrameId = window.requestAnimationFrame(animate) 
     ctx.fillStyle = "white"
     ctx.fillRect (0,0,canvas.width,canvas.height)
 
@@ -333,7 +332,7 @@ function animate(){
 
     for (let j = 0; j < enemyArr.length; j++){
 if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
-    console.log('crash')
+    cancelAnimationFrame(animationFrameId)
 }
     }
 
@@ -362,7 +361,7 @@ if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
 
     }
 
-    }
+}
 
 
 animate()
