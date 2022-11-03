@@ -6,12 +6,13 @@ const timerDiv = document.querySelector('#timer')
 const playerImg = new Image()
 playerImg.src = './images/AllCharacters/Golem/noBKG_GolemIdle_strip.png'
 
-ctx.fillRect(50,400,200,50)
 
 const gravity = 1
 
+audio
 
-document.getElementById("start").addEventListener("click", animate);
+
+document.getElementById("start").addEventListener("click", animate)
 
 
 class Background {
@@ -32,6 +33,8 @@ class Background {
         this.img.src = imageSrc;
 
     }
+    
+
 
     draw(){
         
@@ -41,7 +44,7 @@ class Background {
 }
 
 class Enemy {
-    constructor(x,y,width,height,imageSrc){
+    constructor(x,y,width,height,imageSrc,){
         this.x = -70
         this.y = y
         this.h = 100
@@ -63,14 +66,15 @@ class Enemy {
         this.velocity.x = 6
     }
 
+
     draw(){
 
-ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, this.w, this.h)
+    ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, this.w, this.h)
     
     }
 
     collisionDetectionEnemies(player1){
-        if (this.x < player1.x + player1.w  &&
+        if (this.x + 20 < player1.x + player1.w  &&
             this.x + this.w - 30  > player1.x &&
             this.y + 60 < player1.y + player1.h  &&
             this.y + this.h - 40 > player1.y) {
@@ -100,10 +104,18 @@ ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, t
     
     this.draw()
     
+    
     }
 }
 
 
+
+function batBox(){
+
+ctx.shadowColor= ('red')
+ctx.shadowBlur = 30;
+
+}
 
 let backgroundImg = new Background(0,0,0,0,928,735,canvas.width, canvas.height,"./images/Free-Pixel-Art-Forest/Preview/Background.png")
 
@@ -165,10 +177,11 @@ class Player {
     
     drawPlayer(frame){
         
-        // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-console.log(frame, "This is player frame")
+
+
 this.sx = playerFrame * 64
         ctx.drawImage(playerImg,this.sx,0,50,40, this.x, this.y, 70,75)
+        ctx.shadowBlur = 0
 
     }
 
@@ -285,8 +298,9 @@ function endGame(){
   ctx.fillText('Game Over', 10, 50);
   score = 0
   enemyArr = []
+  newPlayer.x = 400
+  newPlayer.y = 40
  
-
 }
 
 let islandsArr = [newIsland, newIsland2, newIsland3]
@@ -315,7 +329,7 @@ function animate(){
 
  
 
-    newPlayer.update(playerFrame)
+    newPlayer.update(playerFrame,ctx.shadowBlur = "")
 
 
 
@@ -333,6 +347,8 @@ function animate(){
         const newEnemy = new Enemy(0,650 * Math.random(),30,30, './images/Bat/noBKG_BatFlight_strip.png');
         enemyArr.push(newEnemy);
     }
+
+    batBox()
 
     for (let j = 0; j < enemyArr.length; j++){
 if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
