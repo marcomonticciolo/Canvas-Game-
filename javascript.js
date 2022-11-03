@@ -322,12 +322,31 @@ let score = 0;
 let spriteFrame = 0
 let playerFrame = 0
 
+
+
+
+
+
+
+let highScore = document.querySelector("span")
 function animate(){
     frameCount += .5
     if(frameCount % 30 === 0){
        score++;
+       if (score > Number(highScore.innerText)){
+        highScore.innerText = score
+       }
        timerDiv.textContent = `Time: ${score}`
     }
+
+
+    
+    if (score > highScore.innerHtml){
+            highScore.innerHTML = score
+        }
+    
+
+    
     spriteFrame = Math.floor(frameCount % 7.5)
 
     playerFrame = Math.floor(frameCount % 12 )

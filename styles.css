@@ -9,6 +9,10 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     width: 98vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 
     
 }
@@ -25,17 +29,14 @@ body{
 
 
 button{
-position: absolute;
-margin-top: 25%;
+
 margin-left: 3%;
-height: 9%;
-width: %;
+padding: 1%;
 background-color: rgba(148, 43, 37, 0.798);
 border-style:double;
 border-color: black;
-
-
 }
+
 
 
 #canvas-div {
@@ -53,6 +54,10 @@ canvas {
     border-bottom: solid 2px;
     border-top: solid 2px;
 
+}
+
+#highScore{
+    color: white;
 }
 
 
