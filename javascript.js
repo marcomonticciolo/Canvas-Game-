@@ -9,8 +9,6 @@ playerImg.src = './images/AllCharacters/Golem/noBKG_GolemIdle_strip.png'
 
 const gravity = 1
 
-audio
-
 
 document.getElementById("start").addEventListener("click", animate)
 
