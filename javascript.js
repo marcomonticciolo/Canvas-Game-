@@ -9,8 +9,19 @@ playerImg.src = './images/AllCharacters/Golem/noBKG_GolemIdle_strip.png'
 
 const gravity = 1
 
+let button = document.querySelector('button')
+
+let backgroundMusic;
 
 document.getElementById("start").addEventListener("click", animate)
+
+document.getElementById("start").addEventListener("click",function(){
+    backgroundMusic = new Audio("./Audio/[YT2mp3.info] - Secret of the Forest Extended - Chrono Trigger (320kbps).mp3")
+    backgroundMusic.volume = .1
+    backgroundMusic.play()
+    button.innerText = "Restart Game"
+})
+
 
 
 class Background {
@@ -292,13 +303,14 @@ window.addEventListener('keyup',function(event){
 
 function endGame(){
   cancelAnimationFrame(animationFrameId) 
-  ctx.font = '48px serif';
-  ctx.fillText('Game Over', 10, 50);
+  ctx.font = '50px "Press Start 2P"';
+  ctx.fillText('Game Over', 100, 400);
   score = 0
   enemyArr = []
   newPlayer.x = 400
   newPlayer.y = 40
- 
+  backgroundMusic.pause()
+
 }
 
 let islandsArr = [newIsland, newIsland2, newIsland3]
@@ -314,7 +326,7 @@ function animate(){
     frameCount += .5
     if(frameCount % 30 === 0){
        score++;
-       timerDiv.textContent = `Time Survived: ${score}`
+       timerDiv.textContent = `Time: ${score}`
     }
     spriteFrame = Math.floor(frameCount % 7.5)
 
@@ -383,7 +395,7 @@ if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
 }
 
 
-animate()
+
 
 
 
