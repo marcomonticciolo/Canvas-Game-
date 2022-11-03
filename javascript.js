@@ -10,7 +10,6 @@ ctx.fillRect(50,400,200,50)
 
 const gravity = 1
 
-//event listener on buttin here to call animate function
 
 document.getElementById("start").addEventListener("click", animate);
 
@@ -61,7 +60,7 @@ class Enemy {
     }
 
     moveRight(){
-        this.velocity.x = 5
+        this.velocity.x = 6
     }
 
     draw(){
@@ -73,7 +72,7 @@ ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, t
     collisionDetectionEnemies(player1){
         if (this.x < player1.x + player1.w  &&
             this.x + this.w - 30  > player1.x &&
-            this.y + 50 < player1.y + player1.h  &&
+            this.y + 60 < player1.y + player1.h  &&
             this.y + this.h - 40 > player1.y) {
         return true
          }
@@ -169,7 +168,7 @@ class Player {
         // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 console.log(frame, "This is player frame")
 this.sx = playerFrame * 64
-        ctx.drawImage(playerImg,this.sx,0,50,40, this.x, this.y, 70,70)
+        ctx.drawImage(playerImg,this.sx,0,50,40, this.x, this.y, 70,75)
 
     }
 
@@ -221,26 +220,13 @@ let newPlayer = new Player({
 });
 
 
-
-// let newEnemy = new Enemy (0, 720 * Math.random(), 30, 30, './images/8172279.jpeg');
-// let newEnemy = new Enemy ({
-//     x: 0,
-//     y: 720 * Math.random(),
-//     width: 30,
-//     height: 30,
-//     imageSrc: './images/8172279.jpeg'
-
-// });
-
-
-
 // constructor(x,y,sx,sy,swidth,sheight,width,height,imageSrc)
 
 let newIsland = new Background(100,475,400,0,1200,470,300,100,"./images/Mossy-FloatingPlatforms.png")
 
 let newIsland2 = new Background(550,325,400,0,1200,470,300,100,"./images/Mossy-FloatingPlatforms.png")
 
-let newIsland3 = new Background(60,150,400,0,1200,470,300,100,"./images/Mossy-FloatingPlatforms.png")
+let newIsland3 = new Background(60,150,390,0,1200,470,300,100,"./images/Mossy-FloatingPlatforms.png")
 
 
 
@@ -343,7 +329,7 @@ function animate(){
 
 
 
-    if (frameCount % 30 == 0){
+    if (frameCount % 15 == 0){
         const newEnemy = new Enemy(0,650 * Math.random(),30,30, './images/Bat/noBKG_BatFlight_strip.png');
         enemyArr.push(newEnemy);
     }

@@ -2,33 +2,45 @@ body{
     background-image: url("./images/8172279.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
+    width: 98vw;
+
     
 }
 
 #timer {
+    display: flex;
+    margin-top: 5%;
     position: absolute;
-    margin-top: 10%;
-    display: flex;
     justify-content: center;
-    height: 60px;
-    width: 140px;
-    border: 10%;
+    width: 100%;
     border-color: solid black;
+    font-size: larger;
+}
+
+
+button{
+position: absolute;
+margin-top: 25%;
+margin-left: 3%;
+height: 6%;
+width: 8%;
+background-color: rgba(34, 116, 77, 0.798);
+border-style:double;
+border-color: black;
 
 
 }
 
 
-#start {
+#canvas-div {
+    width: 100%;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
 }
-
-
 
 
 canvas {
-
     border: solid black;
     border-left: solid 2px;
     border-right: solid 2px;
@@ -37,11 +49,4 @@ canvas {
 
 }
 
-
-div{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 
