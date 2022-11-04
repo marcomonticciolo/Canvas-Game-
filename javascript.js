@@ -1,10 +1,16 @@
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
 
+window.onload = function (e){
+
+    startAnimate()
+}
+
 const timerDiv = document.querySelector('#timer')
 
 const playerImg = new Image()
 playerImg.src = './images/AllCharacters/Golem/noBKG_GolemIdle_strip.png'
+
 
 
 const gravity = 1
@@ -20,7 +26,12 @@ document.getElementById("start").addEventListener("click",function(){
     backgroundMusic.volume = .1
     backgroundMusic.play()
     button.innerText = "Restart Game"
+    cancelAnimationFrame(startFrameId) 
+    enemyArr = []
 })
+
+
+
 
 
 
@@ -46,6 +57,17 @@ class Background {
 
 
     draw(){
+        
+        ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, this.w, this.h)
+     
+    }
+    drawStart(){
+
+        // ctx.font = '50px "Press Start 2P';
+        // ctx.fillText('Bat Invsasion',175, 125,)
+    
+        // ctx.font = '24px "Press Start 2P';
+        // ctx.fillText('Avoid All The Enemies!',240, 175,)
         
         ctx.drawImage(this.img,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y, this.w, this.h)
      
@@ -326,8 +348,6 @@ let playerFrame = 0
 
 
 
-
-
 let highScore = document.querySelector("span")
 function animate(){
     frameCount += .5
@@ -382,7 +402,6 @@ function animate(){
     for (let j = 0; j < enemyArr.length; j++){
 if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
   endGame()
-  console.log('hello')
 }
     }
 
@@ -412,6 +431,73 @@ if(enemyArr[j].collisionDetectionEnemies(newPlayer)){
     }
 
 }
+
+
+function startAnimate(){
+    frameCount += .5
+
+
+
+    
+
+    
+
+    
+    spriteFrame = Math.floor(frameCount % 7.5)
+
+
+
+    startFrameId = window.requestAnimationFrame(startAnimate) 
+    
+
+    backgroundImg.drawStart()
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+    if (frameCount % 15 == 0){
+        const newEnemy = new Enemy(0,650 * Math.random(),30,30, './images/Bat/noBKG_BatFlight_strip.png');
+        enemyArr.push(newEnemy);
+    }
+
+    batBox()
+
+
+
+    for (let i = 0; i < enemyArr.length; i++){
+        enemyArr[i].frame = frameCount
+        enemyArr[i].sx = spriteFrame * 64
+        enemyArr[i].moveRight();
+        enemyArr[i].update()
+        if(enemyArr[i].x > canvas.width + 1){
+            enemyArr.splice(i, 1)
+            i--
+        }
+    }
+
+   
+    ctx.font = '50px "Press Start 2P';
+    ctx.fillText('Bat Invsasion',175, 125,)
+
+    ctx.font = '24px "Press Start 2P';
+    ctx.fillText('Avoid All The Enemies!',240, 175,)
+
+}
+
+
+
+
+
+
 
 
 
